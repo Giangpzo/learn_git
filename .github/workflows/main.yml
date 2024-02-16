@@ -19,6 +19,9 @@ jobs:
       
       - name: check if docker is worked
         run: docker ps
+
+      - name: print secrets data
+        run: echo "${{toJSON(secrets)}}"
         
       - name: ssh to sql server
         run: /opt/mssql-tools/bin/sqlcmd -S 127.0.0.1,21433 -U SA -P "rootpassword" -Q "CREATE DATABASE HelloWorld"
