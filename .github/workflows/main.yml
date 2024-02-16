@@ -14,16 +14,9 @@ jobs:
           - 21433:1433
 
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Run the action
-        uses: potatoqualitee/mssqlsuite@v1.7
-        with:
-          install: sqlengine, sqlpackage
-
-      - name: Run sqlclient
-        run: sqlcmd -S localhost -U sa -P dbatools.I0 -d tempdb -Q "SELECT @@version;"
-
+      - name: checkout code
+        uses: actions/checkout@v3
+      
       - name: check if docker is worked
         run: docker ps
         
