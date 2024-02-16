@@ -4,6 +4,14 @@ jobs:
   test-everywhere:
     name: Test Action on all platforms
     runs-on: ubuntu-latest
+    services:
+      mssql:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        env:
+          SA_PASSWORD: rootpassword
+          ACCEPT_EULA: 'Y'
+        ports:
+          - 21433:1433
 
     steps:
       - uses: actions/checkout@v3
@@ -16,8 +24,6 @@ jobs:
       - name: Run sqlclient
         run: sqlcmd -S localhost -U sa -P dbatools.I0 -d tempdb -Q "SELECT @@version;"
 
-      - name: setup docker container
-        run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=password" -p 11433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
-
       - name: check if docker is worked
         run: docker ps
+        
