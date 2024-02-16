@@ -4,14 +4,14 @@ jobs:
   test-everywhere:
     name: Test Action on all platforms
     runs-on: ubuntu-latest
-    services:
-      mssql:
-        image: mcr.microsoft.com/mssql/server:2022-latest
-        env:
-          SA_PASSWORD: rootpassword
-          ACCEPT_EULA: 'Y'
-        ports:
-          - 21433:1433
+    # services:
+    #   mssql:
+    #     image: mcr.microsoft.com/mssql/server:2022-latest
+    #     env:
+    #       SA_PASSWORD: rootpassword
+    #       ACCEPT_EULA: 'Y'
+    #     ports:
+    #       - 21433:1433
 
     steps:
       - name: checkout code
