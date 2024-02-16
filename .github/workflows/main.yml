@@ -15,3 +15,9 @@ jobs:
 
       - name: Run sqlclient
         run: sqlcmd -S localhost -U sa -P dbatools.I0 -d tempdb -Q "SELECT @@version;"
+
+      - name: setup docker container
+        run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=@Hoajvjmx888" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
+
+      - name: check if docker is worked
+        run: docker ps
