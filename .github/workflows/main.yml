@@ -38,7 +38,7 @@ jobs:
       #     sudo apt-get install -y unixodbc-dev
 
       # Start up sqlserver
-      - run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=1StrongPwd!!" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-latest
+      - run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=1StrongPwd!!" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
 
       - name: Sleep for 10 minutes
         uses: jakejarvis/wait-action@master
