@@ -4,14 +4,14 @@ jobs:
   test-everywhere:
     name: Test Action on all platforms
     runs-on: ubuntu-latest
-    # services:
-    #   mssql:
-    #     image: mcr.microsoft.com/mssql/server:2022-latest
-    #     env:
-    #       SA_PASSWORD: rootpassword
-    #       ACCEPT_EULA: 'Y'
-    #     ports:
-    #       - 21433:1433
+    services:
+      mssql:
+        image: mcr.microsoft.com/mssql/server:2022-latest
+        env:
+          SA_PASSWORD: rootpassword
+          ACCEPT_EULA: 'Y'
+        ports:
+          - 21433:1433
 
     steps:
       - name: checkout code
@@ -38,12 +38,12 @@ jobs:
       #     sudo apt-get install -y unixodbc-dev
 
       # Start up sqlserver
-      - run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=1StrongPwd!!" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest --wait
+      - run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=1StrongPwd!!" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
 
-      # - name: Sleep for 10 minutes
-      #   uses: jakejarvis/wait-action@master
-      #   with:
-      #     time: '600s'
+      - name: Sleep for 10 minutes
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '600s'
         
       - name: ssh to sql server
         # run: /opt/mssql-tools/bin/sqlcmd -S 127.0.0.1,1433 -U sa -P "rootpassword" -Q "CREATE DATABASE HelloWorld"
