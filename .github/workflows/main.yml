@@ -40,10 +40,10 @@ jobs:
       # Start up sqlserver
       - run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=1StrongPwd!!" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-latest
 
-      # - name: Sleep for 10 minutes
-      #   uses: jakejarvis/wait-action@master
-      #   with:
-      #     time: '600s'
+      - name: Sleep for 10 minutes
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '600s'
         
       - name: ssh to sql server
         # run: /opt/mssql-tools/bin/sqlcmd -S 127.0.0.1,1433 -U sa -P "rootpassword" -Q "CREATE DATABASE HelloWorld"
