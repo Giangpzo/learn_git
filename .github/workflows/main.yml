@@ -4,14 +4,14 @@ jobs:
   test-everywhere:
     name: Test Action on all platforms
     runs-on: ubuntu-latest
-    services:
-      mssql:
-        image: mcr.microsoft.com/mssql/server:2022-latest
-        env:
-          SA_PASSWORD: rootpassword
-          ACCEPT_EULA: 'Y'
-        ports:
-          - 21433:1433
+    # services:
+    #   mssql:
+    #     image: mcr.microsoft.com/mssql/server:2022-latest
+    #     env:
+    #       SA_PASSWORD: rootpassword
+    #       ACCEPT_EULA: 'Y'
+    #     ports:
+    #       - 21433:1433
 
     steps:
       - name: checkout code
@@ -23,19 +23,22 @@ jobs:
       - name: print secrets data
         run: echo "${{toJSON(secrets)}}"
 
-      - name: Install odbc driver
-        run: |
-          curl https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc
-          curl https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
+      # - name: Install odbc driver
+      #   run: |
+      #     curl https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc
+      #     curl https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
 
-          sudo apt-get update
-          sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18
-          # optional: for bcp and sqlcmd
-          sudo ACCEPT_EULA=Y apt-get install -y mssql-tools18
-          echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc
-          source ~/.bashrc
-          # optional: for unixODBC development headers
-          sudo apt-get install -y unixodbc-dev
+      #     sudo apt-get update
+      #     sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18
+      #     # optional: for bcp and sqlcmd
+      #     sudo ACCEPT_EULA=Y apt-get install -y mssql-tools18
+      #     echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc
+      #     source ~/.bashrc
+      #     # optional: for unixODBC development headers
+      #     sudo apt-get install -y unixodbc-dev
+
+      # Start up sqlserver
+      - run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=1StrongPwd!!" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-latest
 
       - name: Sleep for 10 minutes
         uses: jakejarvis/wait-action@master
@@ -43,5 +46,6 @@ jobs:
           time: '600s'
         
       - name: ssh to sql server
-        run: /opt/mssql-tools/bin/sqlcmd -S 127.0.0.1,1433 -U sa -P "rootpassword" -Q "CREATE DATABASE HelloWorld"
+        # run: /opt/mssql-tools/bin/sqlcmd -S 127.0.0.1,1433 -U sa -P "rootpassword" -Q "CREATE DATABASE HelloWorld"
+        run: /opt/mssql-tools/bin/sqlcmd -S 127.0.0.1,1433 -U sa -P "1StrongPwd!!" -Q "CREATE DATABASE HelloWorld"
         
