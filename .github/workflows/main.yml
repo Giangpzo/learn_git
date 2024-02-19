@@ -37,11 +37,11 @@ jobs:
           # optional: for unixODBC development headers
           sudo apt-get install -y unixodbc-dev
 
-      - name: Sleep for 20 minutes
+      - name: Sleep for 10 minutes
         uses: jakejarvis/wait-action@master
         with:
-          time: '1200s'
+          time: '600s'
         
       - name: ssh to sql server
-        run: /opt/mssql-tools/bin/sqlcmd -S 127.0.0.1,21433 -U sa -P "rootpassword" -Q "CREATE DATABASE HelloWorld"
+        run: /opt/mssql-tools/bin/sqlcmd -S 127.0.0.1,1433 -U sa -P "rootpassword" -Q "CREATE DATABASE HelloWorld"
         
