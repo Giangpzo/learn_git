@@ -37,6 +37,8 @@ jobs:
       #     # optional: for unixODBC development headers
       #     sudo apt-get install -y unixodbc-dev
 
+      - uses: TooMuch4U/actions-clean@v2.2
+
       - name: build mssql server
         run: docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=rootpassword" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest
         
